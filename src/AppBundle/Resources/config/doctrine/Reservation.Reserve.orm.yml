@@ -1,0 +1,24 @@
+AppBundle\Entity\Reservation\Reserve:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\Reservation\ReserveRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        idSalle:
+            type: integer
+        dureeReservation:
+            type: integer
+        dateDebut:
+            type: datetime
+        dateFin:
+            type: datetime
+        codeReservation:
+            type: integer
+        status:
+            type: integer
+    lifecycleCallbacks: {  }
