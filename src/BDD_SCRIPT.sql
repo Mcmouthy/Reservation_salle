@@ -55,4 +55,3 @@ alter table SALLE
    add constraint FK_SALLE_CORRESPON_TYPESALL foreign key (typeSalleId)
       references TYPESALLE (id)
       on delete restrict on update restrict;
-
