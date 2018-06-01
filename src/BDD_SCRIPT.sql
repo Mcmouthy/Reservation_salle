@@ -1,70 +1,58 @@
-drop table NIVEAU;
-
-drop table PERSONNE;
-
 drop table RESERVE;
-
 drop table SALLE;
-
+drop table PERSONNE;
 drop table TYPESALLE;
 
-create table NIVEAU (
-   NIVEAU_ID            SERIAL               not null,
-   NIVEAU_NOM           VARCHAR(1024)        not null,
-   constraint PK_NIVEAU primary key (NIVEAU_ID)
-);
-
 create table PERSONNE (
-   PERSONNE_ID          SERIAL               not null,
-   NIVEAU_ID            INT4                 not null,
-   PERSONNE_NOM         VARCHAR(1024)        not null,
-   PERSONNE_PRENOM      VARCHAR(1024)        not null,
-   constraint PK_PERSONNE primary key (PERSONNE_ID)
+   id          SERIAL               not null,
+   isAdmin             BOOLEAN                 not null,
+   nom         VARCHAR(255)        not null,
+   prenom      VARCHAR(255)        not null,
+   login               VARCHAR(255)         not null,
+   pwd                  VARCHAR(255)         not null,
+   constraint PK_PERSONNE primary key (id),
+   constraint UNIQUE_LOGIN unique(login)
 );
 
 create table RESERVE (
-   PERSONNE_ID          INT4                 not null,
-   SALLE_ID             INT4                 not null,
-   RESERVE_DUREE        INT4                 not null,
-   RESERVE_DATEDEBUT    DATE                 not null,
-   RESERVE_DATEFIN      DATE                 not null,
-   RESERVE_CODE         INT4                 not null,
-   RESERVE_STATUS       INT4                 not null,
-   constraint PK_RESERVE primary key (PERSONNE_ID, SALLE_ID)
+   id                  SERIAL        not null,
+   personneId          INT4          not null,
+   salleId             INT4          not null,
+   duree        INT4                 not null,
+   dateDebut    DATE                 not null,
+   dateFin      DATE                 not null,
+   code         INT4                 not null,
+   status       INT4                 not null,
+   constraint PK_RESERVE primary key (id,personneId, salleId)
 );
 
 
 create table SALLE (
-   SALLE_ID             SERIAL               not null,
-   TYPESALE_ID          INT4                 not null,
-   SALLE_NUM            VARCHAR(1024)        not null,
-   SALLE_CAPACITE       INT4                 not null,
-   constraint PK_SALLE primary key (SALLE_ID)
+   id             SERIAL               not null,
+   typeSalleId          INT4                 not null,
+   numero            VARCHAR(1024)        not null,
+   capacite       INT4                 not null,
+   constraint PK_SALLE primary key (id)
 );
 
 create table TYPESALLE (
-   TYPESALE_ID          SERIAL               not null,
-   TYPESALLE_NOM        VARCHAR(1024)        not null,
-   constraint PK_TYPESALLE primary key (TYPESALE_ID)
+   id          SERIAL               not null,
+   nom        VARCHAR(1024)        not null,
+   constraint PK_TYPESALLE primary key (id)
 );
 
-alter table PERSONNE
-   add constraint FK_PERSONNE_EST_DE_NI_NIVEAU foreign key (NIVEAU_ID)
-      references NIVEAU (NIVEAU_ID)
+alter table RESERVE
+   add constraint FK_RESERVE_RESERVE_SALLE foreign key (salleId)
+      references SALLE (id)
       on delete restrict on update restrict;
 
 alter table RESERVE
-   add constraint FK_RESERVE_RESERVE_SALLE foreign key (SALLE_ID)
-      references SALLE (SALLE_ID)
-      on delete restrict on update restrict;
-
-alter table RESERVE
-   add constraint FK_RESERVE_RESERVE2_PERSONNE foreign key (PERSONNE_ID)
-      references PERSONNE (PERSONNE_ID)
+   add constraint FK_RESERVE_RESERVE2_PERSONNE foreign key (personneId)
+      references PERSONNE (id)
       on delete restrict on update restrict;
 
 alter table SALLE
-   add constraint FK_SALLE_CORRESPON_TYPESALL foreign key (TYPESALE_ID)
-      references TYPESALLE (TYPESALE_ID)
+   add constraint FK_SALLE_CORRESPON_TYPESALL foreign key (typeSalleId)
+      references TYPESALLE (id)
       on delete restrict on update restrict;
 

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Typesalles list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for typeSalle in typeSalles %}
+            <tr>
+                <td><a href="{{ path('typesalle_show', { 'id': typeSalle.id }) }}">{{ typeSalle.id }}</a></td>
+                <td>{{ typeSalle.nom }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('typesalle_show', { 'id': typeSalle.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('typesalle_edit', { 'id': typeSalle.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('typesalle_new') }}">Create a new typeSalle</a>
+        </li>
+    </ul>
+{% endblock %}

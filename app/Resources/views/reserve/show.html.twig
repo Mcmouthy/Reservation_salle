@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Reserve</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ reserve.id }}</td>
+            </tr>
+            <tr>
+                <th>Personneid</th>
+                <td>{{ reserve.personneId }}</td>
+            </tr>
+            <tr>
+                <th>Salleid</th>
+                <td>{{ reserve.salleId }}</td>
+            </tr>
+            <tr>
+                <th>Duree</th>
+                <td>{{ reserve.duree }}</td>
+            </tr>
+            <tr>
+                <th>Datedebut</th>
+                <td>{% if reserve.dateDebut %}{{ reserve.dateDebut|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Datefin</th>
+                <td>{% if reserve.dateFin %}{{ reserve.dateFin|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ reserve.code }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ reserve.status }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('reserve_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('reserve_edit', { 'id': reserve.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
