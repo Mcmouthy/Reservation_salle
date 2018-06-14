@@ -28,6 +28,8 @@ class TypeSalleController extends Controller
 
         return $this->render('typesalle/index.html.twig', array(
             'typeSalles' => $typeSalles,
+            'isConnected'=>$this->get('session')->get('isConnected'),
+            'isAdmin'=>$this->get('session')->get('isAdmin'),
         ));
     }
 
@@ -54,6 +56,8 @@ class TypeSalleController extends Controller
         return $this->render('typesalle/new.html.twig', array(
             'typeSalle' => $typeSalle,
             'form' => $form->createView(),
+            'isConnected'=>$this->get('session')->get('isConnected'),
+            'isAdmin'=>$this->get('session')->get('isAdmin'),
         ));
     }
 
@@ -70,6 +74,8 @@ class TypeSalleController extends Controller
         return $this->render('typesalle/show.html.twig', array(
             'typeSalle' => $typeSalle,
             'delete_form' => $deleteForm->createView(),
+            'isConnected'=>$this->get('session')->get('isConnected'),
+            'isAdmin'=>$this->get('session')->get('isAdmin'),
         ));
     }
 
@@ -95,6 +101,8 @@ class TypeSalleController extends Controller
             'typeSalle' => $typeSalle,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'isConnected'=>$this->get('session')->get('isConnected'),
+            'isAdmin'=>$this->get('session')->get('isAdmin'),
         ));
     }
 
