@@ -2,46 +2,48 @@
 
 
 {% block body %}
-    <h1>Personnes list </h1>
-    <table>
+    <h1 class="center" >Personnes list</h1>
+    <table class="table table-striped table-bordered table-style">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Isadmin</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Login</th>
-                <th>Pwd</th>
-                <th>Actions</th>
+                <th class="center table-title">Id</th>
+                <th class="center table-title">Isadmin</th>
+                <th class="center table-title">Nom</th>
+                <th class="center table-title">Prenom</th>
+                <th class="center table-title">Login</th>
+                <th class="center table-title">Pwd</th>
+                <th class="center table-title">Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for personne in personnes %}
             <tr>
-                <td><a href="{{ path('personne_show', { 'id': personne.id }) }}">{{ personne.id }}</a></td>
-                <td>{% if personne.isAdmin %}Yes{% else %}No{% endif %}</td>
-                <td>{{ personne.nom }}</td>
-                <td>{{ personne.prenom }}</td>
-                <td>{{ personne.login }}</td>
-                <td>{{ personne.pwd }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('personne_show', { 'id': personne.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('personne_edit', { 'id': personne.id }) }}">edit</a>
-                        </li>
-                    </ul>
+                <td class="center"><a href="{{ path('personne_show', { 'id': personne.id }) }}">{{ personne.id }}</a></td>
+                <td class="center">{% if personne.isAdmin %}Yes{% else %}No{% endif %}</td>
+                <td class="center">{{ personne.nom }}</td>
+                <td class="center">{{ personne.prenom }}</td>
+                <td class="center">{{ personne.login }}</td>
+                <td class="center">{{ personne.pwd }}</td>
+                <td class="center">
+                    {#<ul>
+                        <li>#}
+                            <a class="btn btn-info btn-sm" href="{{ path('personne_show', { 'id': personne.id }) }}">show</a>
+                        {#</li>
+                        <li>#}
+                            <a class="btn btn-warning btn-sm" href="{{ path('personne_edit', { 'id': personne.id }) }}">edit</a>
+                       {# </li>
+                    </ul>#}
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('personne_new') }}">Create a new personne</a>
-        </li>
-    </ul>
+    {#<ul>
+        <li>#}
+    <div class="center">
+        <a class="btn btn-primary btn-sm" href="{{ path('personne_new') }}">Create a new personne</a>
+    </div>
+        {#</li>
+    </ul>#}
 {% endblock %}
