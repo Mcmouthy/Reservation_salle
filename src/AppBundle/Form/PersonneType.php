@@ -13,7 +13,7 @@ class PersonneType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('isAdmin')->add('nom')->add('prenom')->add('login')->add('pwd');
+        $builder->add('nom')->add('prenom')->add('login')->add('pwd');
     }/**
      * {@inheritdoc}
      */

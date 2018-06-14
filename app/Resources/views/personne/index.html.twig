@@ -5,15 +5,15 @@
     <h1 class="center" >Personnes list</h1>
     <table class="table table-striped table-bordered table-style">
         <thead>
-        <tr>
-            <th class="center table-title">Id</th>
-            <th class="center table-title">Isadmin</th>
-            <th class="center table-title">Nom</th>
-            <th class="center table-title">Prenom</th>
-            <th class="center table-title">Login</th>
-            <th class="center table-title">Pwd</th>
-            <th class="center table-title">Actions</th>
-        </tr>
+            <tr>
+                <th class="center table-title">Id</th>
+                <th class="center table-title">Isadmin</th>
+                <th class="center table-title">Nom</th>
+                <th class="center table-title">Prenom</th>
+                <th class="center table-title">Login</th>
+                <th class="center table-title">Pwd</th>
+                <th class="center table-title">Actions</th>
+            </tr>
         </thead>
         <tbody>
         {% for personne in personnes %}
@@ -25,14 +25,14 @@
                 <td class="center">{{ personne.login }}</td>
                 <td class="center">{{ personne.pwd }}</td>
                 <td class="center">
-                    {#<ul class="list-group">
-                        <li class="list-group-item">#}
-                    <a class="btn btn-info btn-sm" href="{{ path('personne_show', { 'id': personne.id }) }}">show</a>
-                    {#</li>
-                    <li class="list-group-item">#}
-                    <a class="btn btn-warning btn-sm" href="{{ path('personne_edit', { 'id': personne.id }) }}">edit</a>
-                    {# </li>
-                 </ul>#}
+                    {#<ul>
+                        <li>#}
+                            <a href="{{ path('personne_show', { 'id': personne.id }) }}">show</a>
+                        {#</li>
+                        <li>#}
+                            <a href="{{ path('personne_edit', { 'id': personne.id }) }}">edit</a>
+                       {# </li>
+                    </ul>#}
                 </td>
             </tr>
         {% endfor %}
