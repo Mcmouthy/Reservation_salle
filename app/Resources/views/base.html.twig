@@ -16,6 +16,17 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
+        {% if isConnected %}
+            <a href="{{ path('personne_deconnexion') }}">Se déconnecter</a>
+            {% if isAdmin %}
+                <h2>Vous êtes Admin</h2>
+            {% else %}
+                <h2>Vous êtes une user lambda</h2>
+            {% endif %}
+        {% else %}
+            <a href="{{ path('personne_connexion') }}">Se connecter</a>
+        {% endif %}
+
         {% block menu %}{% endblock %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}

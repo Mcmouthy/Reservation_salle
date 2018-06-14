@@ -32,6 +32,7 @@ class PersonneController extends Controller
 
         return $this->render('personne/index.html.twig', array(
             'personnes' => $personnes,
+            'isConnected'=>$this->get('session')->get('isConnected'),
             'isAdmin'=>$this->get('session')->get('isAdmin'),
         ));
     }
@@ -60,13 +61,15 @@ class PersonneController extends Controller
         return $this->render('personne/new.html.twig', array(
             'personne' => $personne,
             'form' => $form->createView(),
+            'isConnected'=>$this->get('session')->get('isConnected'),
+            'isAdmin'=>$this->get('session')->get('isAdmin'),
         ));
     }
     /**
      * Connection to admin or user
      *
      * @Route("/connect",name="personne_connexion")
-     * @Method("POST")
+     *
      */
     public function connectAction(Request $request)
     {
@@ -90,7 +93,23 @@ class PersonneController extends Controller
 
         return $this->render("personne/connexion.html.twig", array(
             'form' => $form->createView(),
+            'isConnected'=>$this->get('session')->get('isConnected'),
+            'isAdmin'=>$this->get('session')->get('isAdmin'),
         ));
+    }
+
+    /**
+     * deconnection to admin or user
+     *
+     * @Route("/deconnect",name="personne_deconnexion")
+     *
+     */
+    public function deconnectAction(Request $request)
+    {
+        $this->get('session')->set('isAdmin',0);
+        $this->get('session')->set('isConnected',0);
+
+        return $this->redirectToRoute("personne_index");
     }
 
     /**
@@ -105,15 +124,19 @@ class PersonneController extends Controller
         }else{
             $this->get('session')->set('isAdmin',0);
         }
+        $this->get('session')->set('isConnected',1);
 
         return $this->redirectToRoute("personne_index");
 
     }
 
+
+
+
     /**
      * Finds and displays a personne entity.
      *
-     * @Route("/{id}", name="personne_show")
+     * @Route("/display-{id}", name="personne_show")
      * @Method("GET")
      */
     public function showAction(Personne $personne)
@@ -123,13 +146,15 @@ class PersonneController extends Controller
         return $this->render('personne/show.html.twig', array(
             'personne' => $personne,
             'delete_form' => $deleteForm->createView(),
+            'isConnected'=>$this->get('session')->get('isConnected'),
+            'isAdmin'=>$this->get('session')->get('isAdmin'),
         ));
     }
 
     /**
      * Displays a form to edit an existing personne entity.
      *
-     * @Route("/{id}/edit", name="personne_edit")
+     * @Route("/edit/{id}", name="personne_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Personne $personne)
@@ -148,13 +173,15 @@ class PersonneController extends Controller
             'personne' => $personne,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'isConnected'=>$this->get('session')->get('isConnected'),
+            'isAdmin'=>$this->get('session')->get('isAdmin'),
         ));
     }
 
     /**
      * Deletes a personne entity.
      *
-     * @Route("/{id}", name="personne_delete")
+     * @Route("/delete/{id}", name="personne_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Personne $personne)
