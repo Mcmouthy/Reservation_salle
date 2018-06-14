@@ -5,7 +5,11 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Personne;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Personne controller.
@@ -28,6 +32,7 @@ class PersonneController extends Controller
 
         return $this->render('personne/index.html.twig', array(
             'personnes' => $personnes,
+            'isAdmin'=>$this->get('session')->get('isAdmin'),
         ));
     }
 
@@ -45,6 +50,7 @@ class PersonneController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $personne->setPwd(md5($personne->getPwd()));
             $em->persist($personne);
             $em->flush();
 
@@ -55,6 +61,53 @@ class PersonneController extends Controller
             'personne' => $personne,
             'form' => $form->createView(),
         ));
+    }
+    /**
+     * Connection to admin or user
+     *
+     * @Route("/connect",name="personne_connexion")
+     * @Method("POST")
+     */
+    public function connectAction(Request $request)
+    {
+        $personne = new Personne();
+        $form = $this->createFormBuilder()
+            ->add('login', TextType::class)
+            ->add('pwd', PasswordType::class)
+            ->add('validate', SubmitType::class, array('label' => 'Se connecter'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // $form->getData() holds the submitted values
+            // but, the original `$task` variable has also been updated
+            $personne->setLogin($form->getData()['login']);
+            $personne->setPwd(md5($form->getData()['pwd']));
+
+            return $this->validateFormUser($personne);
+        }
+
+        return $this->render("personne/connexion.html.twig", array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * validation of connection
+     */
+    public function validateFormUser(Personne $personne)
+    {
+        $repository = $this->getDoctrine()->getRepository(Personne::class);
+        $databasePerson= $repository->findOneBy(['login'=>$personne->getLogin()]);
+        if ($databasePerson->getPwd()==$personne->getPwd()){
+            $this->get('session')->set('isAdmin',1);
+        }else{
+            $this->get('session')->set('isAdmin',0);
+        }
+
+        return $this->redirectToRoute("personne_index");
+
     }
 
     /**
