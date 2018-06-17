@@ -1,39 +1,31 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Typesalles list</h1>
+    <h1 class="center">Typesalles list</h1>
 
-    <table>
-        <thead>
+    <table class="table table-striped table-bordered table-style">
             <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Actions</th>
+                {#<th class="table-title">Id</th>#}
+                <th class=" center table-title">Nom</th>
+                <th class=" center table-title">Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for typeSalle in typeSalles %}
             <tr>
-                <td><a href="{{ path('typesalle_show', { 'id': typeSalle.id }) }}">{{ typeSalle.id }}</a></td>
-                <td>{{ typeSalle.nom }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('typesalle_show', { 'id': typeSalle.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('typesalle_edit', { 'id': typeSalle.id }) }}">edit</a>
-                        </li>
-                    </ul>
+                {#<td class="center"><a class="btn btn-info" href="{{ path('typesalle_show', { 'id': typeSalle.id }) }}">{{ typeSalle.id }}</a></td>#}
+                <td class="center">{{ typeSalle.nom }}</td>
+                <td class="center">
+                            <a class="btn btn-info btn-sm" href="{{ path('typesalle_show', { 'id': typeSalle.id }) }}">show</a>
+                            <a class="btn btn-warning btn-sm" href="{{ path('typesalle_edit', { 'id': typeSalle.id }) }}">edit</a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    <div class="center div-form-style">
 
-    <ul>
-        <li>
-            <a href="{{ path('typesalle_new') }}">Create a new typeSalle</a>
-        </li>
-    </ul>
+        <a class="btn btn-primary" href="{{ path('typesalle_new') }}">Create a new typeSalle</a>
+    </div>
+
 {% endblock %}

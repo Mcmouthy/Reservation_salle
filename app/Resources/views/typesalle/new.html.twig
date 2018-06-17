@@ -1,16 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Typesalle creation</h1>
+    <h1 class="center">Typesalle creation</h1>
+    <div class="center div-form-style">
 
-    {{ form_start(form) }}
+        {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('typesalle_index') }}">Back to the list</a>
-        </li>
-    </ul>
+        <input class="btn btn-success" type="submit" value="Create" />
+        {{ form_end(form) }}
+    </div>
+    <div class="center div-form-style">
+        <a class="btn btn-primary" href="{{ path('typesalle_index') }}">Back to the list</a>
+    </div>
 {% endblock %}

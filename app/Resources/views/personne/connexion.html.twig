@@ -1,7 +1,9 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    {{ form_start(form) }}
+    <div class="center div-form-style">
+        {{ form_start(form) }}
         {{ form_widget(form) }}
-    {{ form_end(form) }}
-    <a class="pure-button button-disabled" href="{{ path('personne_new') }}">S'inscrire</a>
+        {{ form_end(form) }}
+        <a class="pure-button button-disabled" href="{{ path('personne_new') }}">S'inscrire</a>
+    </div>
 {% endblock %}
