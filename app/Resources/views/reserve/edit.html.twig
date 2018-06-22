@@ -1,21 +1,71 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Reserve edit</h1>
+    <h1 class="center">Reserve edit</h1>
 
+    <div class="center">
+
+        <table class="table table-striped table-bordered table-style">
+            <tr>
+                <th class="center table-title">Salle</th>
+                <th class="center table-title">Type Salle</th>
+                <th class="center table-title">Date</th>
+                <th class="center table-title">Capacité</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="center">A 401</td>
+                <td class="center">classique</td>
+                <td class="center">12/06/2018</td>
+                <td class="center">6</td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="4">
+                    <a class="btn btn-success" href="#">8:00</a>
+                    <a class="btn btn-success" href="#">8:30</a>
+                    <a class="btn btn-primary" href="#">9:00</a>
+                    <a class="btn btn-primary" href="#">9:30</a>
+                    <a class="btn btn-secondary" href="#">10:00</a>
+                    <a class="btn btn-secondary" href="#">10:30</a>
+                    <a class="btn btn-primary" href="#">11:00</a>
+                    <a class="btn btn-primary" href="#">11:30</a>
+                    <a class="btn btn-primary" href="#">12:00</a>
+                    <a class="btn btn-primary" href="#">12:30</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <a class="btn btn-primary" href="#">13:00</a>
+                    <a class="btn btn-primary" href="#">13:30</a>
+                    <a class="btn btn-primary" href="#">14:00</a>
+                    <a class="btn btn-primary" href="#">14:30</a>
+                    <a class="btn btn-primary" href="#">15:00</a>
+                    <a class="btn btn-secondary" href="#">15:30</a>
+                    <a class="btn btn-secondary" href="#">16:30</a>
+                    <a class="btn btn-secondary" href="#">17:00</a>
+                    <a class="btn btn-primary" href="#">17:30</a>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+
+
+<div class="center div-form-style">
     {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
+    {{ form_widget(edit_form) }}
+    <input class="btn btn-success" type="submit" value="Edit" />
     {{ form_end(edit_form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('reserve_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+</div>
+    <div class="center div-form-style">
+        {{ form_start(delete_form) }}
+        <a class="btn btn-primary" href="{{ path('reserve_index') }}">Back to the list</a>
+        <input class="btn btn-warning" type="submit" value="Delete">
+        {{ form_end(delete_form) }}
+
+    </div>
 {% endblock %}

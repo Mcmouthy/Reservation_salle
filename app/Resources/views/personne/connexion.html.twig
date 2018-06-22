@@ -1,5 +1,7 @@
 {% extends "base.html.twig" %}
 {% block body %}
+    <div class="center div-form-style">
+        {{ form_start(form) }}
     {% if errorLogin %}
         <div class="alert alert-danger" role="alert">
             Identifiant ou mot de passe incorrect !
@@ -12,6 +14,7 @@
     {% endif %}
     {{ form_start(form) }}
         {{ form_widget(form) }}
-    {{ form_end(form) }}
-    <a class="pure-button button-disabled" href="{{ path('personne_new') }}">S'inscrire</a>
+        {{ form_end(form) }}
+        <a class="pure-button button-disabled" href="{{ path('personne_new') }}">S'inscrire</a>
+    </div>
 {% endblock %}

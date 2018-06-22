@@ -42,9 +42,32 @@
                 {% if user and user.isConnected %}
                     <a class="nav-link" href="{{ path('personne_deconnexion') }}">Se déconnecter <span class="sr-only">(current)</span></a>
                 {% endif %}
-
             </li>
         </ul>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Reservation
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#">Réserver</a>
+                    <a class="dropdown-item" href="#">Mes réservations</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Administratif
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#">Salles</a>
+                    <a class="dropdown-item" href="#">TypeSalle</a>
+                </div>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Profil <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+        <a class="nav-link mr-sm-2" href="#">Connexion <span class="sr-only">(current)</span></a>
     </div>
 </nav>
 {%  endblock %}

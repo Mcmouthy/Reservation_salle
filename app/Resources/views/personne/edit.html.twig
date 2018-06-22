@@ -1,21 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Personne edit</h1>
+    <h1 class="center">Personne edit</h1>
+    <div class="center div-form-style">
+        {{ form_start(edit_form) }}
+            {{ form_widget(edit_form) }}
+                <input class = "btn btn-success" type="submit" value="Edit" />
+        {{ form_end(edit_form) }}
+    </div>
+    <div class="center div-form-style">
+        {{ form_start(delete_form) }}
+        <a class="btn btn-primary" href="{{ path('personne_index') }}">Back to the list</a>
+        <input class = "btn btn-warning" type="submit" value="Delete">
+        {{ form_end(delete_form) }}
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
+    </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('personne_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
 {% endblock %}
