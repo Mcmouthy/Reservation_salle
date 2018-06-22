@@ -81,15 +81,6 @@
         </table>
     </div>
 
-
-    <div class="center div-form-style">
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input class="btn btn-success" type="submit" value="Create" />
-        {{ form_end(form) }}
-    </div>
-    <div class="center div-form-style">
-
-        <a class="btn btn-primary" href="{{ path('reserve_index') }}">Back to the list</a>
+    <a class="btn btn-primary" href="{{ path('reserve_index') }}">Back to the list</a>
     </div>
 {% endblock %}
