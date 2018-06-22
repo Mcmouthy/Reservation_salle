@@ -10,8 +10,8 @@
                 <td class="center">{{ personne.id }}</td>
             </tr>
             <tr>
-                <th class="center table-title">Isadmin</th>
-                <td class="center">{% if personne.isAdmin %}Yes{% else %}No{% endif %}</td>
+                <th class="center table-title">Administrateur</th>
+                <td class="center">{% if personne.isAdmin %}Oui{% else %}Non{% endif %}</td>
             </tr>
             <tr>
                 <th class="center table-title">Nom</th>
@@ -24,10 +24,6 @@
             <tr>
                 <th class="center table-title">Login</th>
                 <td class="center">{{ personne.login }}</td>
-            </tr>
-            <tr>
-                <th class="center table-title">Pwd</th>
-                <td class="center">{{ personne.pwd }}</td>
             </tr>
         </tbody>
     </table>

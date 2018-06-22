@@ -1,5 +1,15 @@
 {% extends "base.html.twig" %}
 {% block body %}
+    {% if errorLogin %}
+        <div class="alert alert-danger" role="alert">
+            Identifiant ou mot de passe incorrect !
+        </div>
+    {% endif %}
+    {% if creationUser %}
+        <div class="alert alert-success" role="alert">
+            Votre compte a bien été créé !
+        </div>
+    {% endif %}
     {{ form_start(form) }}
         {{ form_widget(form) }}
     {{ form_end(form) }}

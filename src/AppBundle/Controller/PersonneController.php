@@ -32,8 +32,7 @@ class PersonneController extends Controller
 
         return $this->render('personne/index.html.twig', array(
             'personnes' => $personnes,
-            'isConnected'=>$this->get('session')->get('isConnected'),
-            'isAdmin'=>$this->get('session')->get('isAdmin'),
+            'user' => $this->get('session')->get('user'),
         ));
     }
 
@@ -52,17 +51,22 @@ class PersonneController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $personne->setPwd(md5($personne->getPwd()));
+            $personne->setIsAdmin(false);
             $em->persist($personne);
             $em->flush();
 
-            return $this->redirectToRoute('personne_show', array('id' => $personne->getId()));
+            if ($this->get('session')->get('user')["isAdmin"]==1){
+                return $this->redirectToRoute('personne_show', array('id' => $personne->getId()));
+            }else{
+                $this->get('session')->set('creationUser',1);
+                return $this->redirectToRoute('personne_connexion');
+            }
         }
 
         return $this->render('personne/new.html.twig', array(
             'personne' => $personne,
             'form' => $form->createView(),
-            'isConnected'=>$this->get('session')->get('isConnected'),
-            'isAdmin'=>$this->get('session')->get('isAdmin'),
+            'user' => $this->get('session')->get('user'),
         ));
     }
     /**
@@ -93,8 +97,9 @@ class PersonneController extends Controller
 
         return $this->render("personne/connexion.html.twig", array(
             'form' => $form->createView(),
-            'isConnected'=>$this->get('session')->get('isConnected'),
-            'isAdmin'=>$this->get('session')->get('isAdmin'),
+            'user' => $this->get('session')->get('user'),
+            'errorLogin'=> $this->get('session')->get('errorLogin'),
+            "creationUser"=> $this->get('session')->get('creationUser')
         ));
     }
 
@@ -106,10 +111,9 @@ class PersonneController extends Controller
      */
     public function deconnectAction(Request $request)
     {
-        $this->get('session')->set('isAdmin',0);
-        $this->get('session')->set('isConnected',0);
+        $this->get('session')->set('user',null);
 
-        return $this->redirectToRoute("personne_index");
+        return $this->redirectToRoute("personne_connexion");
     }
 
     /**
@@ -120,13 +124,22 @@ class PersonneController extends Controller
         $repository = $this->getDoctrine()->getRepository(Personne::class);
         $databasePerson= $repository->findOneBy(['login'=>$personne->getLogin()]);
         if ($databasePerson->getPwd()==$personne->getPwd()){
-            $this->get('session')->set('isAdmin',1);
+            $this->get('session')->set('user',array(
+                "id"=>$databasePerson->getId(),
+                "prenom"=>$databasePerson->getNom(),
+                "isAdmin"=>$databasePerson->getIsAdmin(),
+                "isConnected"=>1));
+            $this->get('session')->remove('errorLogin');
+            $this->get('session')->remove('creationUser');
         }else{
-            $this->get('session')->set('isAdmin',0);
+            $this->get('session')->set('errorLogin',1);
+           return $this->redirectToRoute("personne_connexion");
         }
-        $this->get('session')->set('isConnected',1);
-
-        return $this->redirectToRoute("personne_index");
+        if ($databasePerson->getIsAdmin()){
+            return $this->redirectToRoute("personne_index");
+        }else{
+            return $this->redirectToRoute("reserve_index");
+        }
 
     }
 
@@ -146,8 +159,7 @@ class PersonneController extends Controller
         return $this->render('personne/show.html.twig', array(
             'personne' => $personne,
             'delete_form' => $deleteForm->createView(),
-            'isConnected'=>$this->get('session')->get('isConnected'),
-            'isAdmin'=>$this->get('session')->get('isAdmin'),
+            'user' => $this->get('session')->get('user'),
         ));
     }
 
@@ -173,8 +185,7 @@ class PersonneController extends Controller
             'personne' => $personne,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'isConnected'=>$this->get('session')->get('isConnected'),
-            'isAdmin'=>$this->get('session')->get('isAdmin'),
+            'user' => $this->get('session')->get('user'),
         ));
     }
 

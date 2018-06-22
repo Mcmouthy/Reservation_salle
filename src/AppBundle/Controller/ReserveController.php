@@ -28,8 +28,7 @@ class ReserveController extends Controller
 
         return $this->render('reserve/index.html.twig', array(
             'reserves' => $reserves,
-            'isConnected'=>$this->get('session')->get('isConnected'),
-            'isAdmin'=>$this->get('session')->get('isAdmin'),
+            'user' => $this->get('session')->get('user'),
         ));
     }
 
@@ -56,8 +55,7 @@ class ReserveController extends Controller
         return $this->render('reserve/new.html.twig', array(
             'reserve' => $reserve,
             'form' => $form->createView(),
-            'isConnected'=>$this->get('session')->get('isConnected'),
-            'isAdmin'=>$this->get('session')->get('isAdmin'),
+            'user' => $this->get('session')->get('user'),
         ));
     }
 
@@ -74,8 +72,7 @@ class ReserveController extends Controller
         return $this->render('reserve/show.html.twig', array(
             'reserve' => $reserve,
             'delete_form' => $deleteForm->createView(),
-            'isConnected'=>$this->get('session')->get('isConnected'),
-            'isAdmin'=>$this->get('session')->get('isAdmin'),
+            'user' => $this->get('session')->get('user'),
         ));
     }
 
@@ -101,8 +98,7 @@ class ReserveController extends Controller
             'reserve' => $reserve,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'isConnected'=>$this->get('session')->get('isConnected'),
-            'isAdmin'=>$this->get('session')->get('isAdmin'),
+            'user' => $this->get('session')->get('user'),
         ));
     }
 

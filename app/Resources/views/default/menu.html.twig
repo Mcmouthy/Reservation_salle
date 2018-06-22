@@ -1,34 +1,48 @@
 {% block menu %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">Kerberos</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Reservation
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#">Réserver</a>
-                    <a class="dropdown-item" href="#">Mes réservations</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Administratif
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#">Salles</a>
-                    <a class="dropdown-item" href="#">TypeSalle</a>
-                </div>
-            </li>
+            {% if user and user.isConnected %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Reservation
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{ path('reserve_new') }}">Réserver</a>
+                        <a class="dropdown-item" href="{{ path('reserve_index') }}">Mes réservations</a>
+                    </div>
+                </li>
+                {% if user and user.isAdmin %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Administratif
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{ path('salle_index') }}">Salles</a>
+                        <a class="dropdown-item" href="{{ path('typesalle_index') }}">TypeSalle</a>
+                    </div>
+                </li>
+                {% endif %}
+                <li class="nav-item active">
+                        {% if user.isAdmin %}
+                            <a class="nav-link" href="{{ path('personne_index') }}">Utilisateurs <span class="sr-only">(current)</span></a>
+                        {% else %}
+                            <a class="nav-link" href="#">Mon profil <span class="sr-only">(current)</span></a>
+                        {% endif %}
+                </li>
+                <li class="nav-item active">
+                    <span class="nav-link">Bonjour {{ user.prenom }}</span>
+                </li>
+            {% endif %}
             <li class="nav-item active">
-                <a class="nav-link" href="#">Profil <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Connexion <span class="sr-only">(current)</span></a>
+                {% if user and user.isConnected %}
+                    <a class="nav-link" href="{{ path('personne_deconnexion') }}">Se déconnecter <span class="sr-only">(current)</span></a>
+                {% endif %}
+
             </li>
         </ul>
     </div>

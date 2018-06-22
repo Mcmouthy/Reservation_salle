@@ -28,8 +28,7 @@ class SalleController extends Controller
 
         return $this->render('salle/index.html.twig', array(
             'salles' => $salles,
-            'isConnected'=>$this->get('session')->get('isConnected'),
-            'isAdmin'=>$this->get('session')->get('isAdmin'),
+            'user' => $this->get('session')->get('user'),
         ));
     }
 
@@ -56,8 +55,7 @@ class SalleController extends Controller
         return $this->render('salle/new.html.twig', array(
             'salle' => $salle,
             'form' => $form->createView(),
-            'isConnected'=>$this->get('session')->get('isConnected'),
-            'isAdmin'=>$this->get('session')->get('isAdmin'),
+            'user' => $this->get('session')->get('user'),
         ));
     }
 
@@ -74,8 +72,7 @@ class SalleController extends Controller
         return $this->render('salle/show.html.twig', array(
             'salle' => $salle,
             'delete_form' => $deleteForm->createView(),
-            'isConnected'=>$this->get('session')->get('isConnected'),
-            'isAdmin'=>$this->get('session')->get('isAdmin'),
+            'user' => $this->get('session')->get('user'),
         ));
     }
 
@@ -101,8 +98,7 @@ class SalleController extends Controller
             'salle' => $salle,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'isConnected'=>$this->get('session')->get('isConnected'),
-            'isAdmin'=>$this->get('session')->get('isAdmin'),
+            'user' => $this->get('session')->get('user'),
         ));
     }
 
