@@ -5,7 +5,9 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Reserve;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Reserve controller.
@@ -41,7 +43,9 @@ class ReserveController extends Controller
     public function newAction(Request $request)
     {
         $reserve = new Reserve();
+        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm('AppBundle\Form\ReserveType', $reserve);
+        $typesSalles = $em->getRepository('AppBundle:TypeSalle')->findAll();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -54,6 +58,7 @@ class ReserveController extends Controller
 
         return $this->render('reserve/new.html.twig', array(
             'reserve' => $reserve,
+            'typeSalle'=> $typesSalles,
             'form' => $form->createView(),
             'user' => $this->get('session')->get('user'),
         ));
@@ -136,5 +141,42 @@ class ReserveController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     * get salles disponibilities in ajax
+     * @Route("/new/disponibilities", name="reserve_dispo")
+     * @Method ("GET")
+     * @return  Response
+     */
+    public function ajaxGetDisponibilities(Request $request)
+    {
+        $params = array("typeSalle"=>$request->get('typeSelected'),
+            "dateSelected"=>$request->get('dateSelected'),
+            "capaciteSelected"=>$request->get('capaciteSelected'));
+        $em=$this->getDoctrine()->getManager();
+        $query = "Select s.capacite,s.numero, t.nom from SALLE s 
+                  JOIN TYPESALLE t ON s.typeSalleid = t.id 
+                   AND s.id not in (
+                  select salleId from RESERVE r where 
+                  (select SUM(r.duree) from RESERVE r where r.dateDebut = '".date($params['dateSelected'])."')<9*60)";
+        if($params["typeSalle"]){
+            $query.=' AND s.typeSalleId ='.$params["typeSalle"];
+        }
+        if($params["capaciteSelected"]){
+            $query.=' AND s.capacite >='.$params["capaciteSelected"];
+        }
+        $query.=';';
+
+        $statement = $em->getConnection()->prepare($query);
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+        if (count($result)){
+            $htmlToRender = $this->render("/reserve/dispo.html.twig",array("salles"=>$result));
+        }else{
+            $htmlToRender = "";
+        }
+        return new Response($htmlToRender);
     }
 }

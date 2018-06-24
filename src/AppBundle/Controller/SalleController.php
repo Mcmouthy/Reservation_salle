@@ -5,7 +5,13 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Salle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+
 
 /**
  * Salle controller.
@@ -23,8 +29,13 @@ class SalleController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $query = 'SELECT s.id, s.numero, s.capacite, t.nom typeSalle FROM SALLE s
+        JOIN  TYPESALLE t ON s.typeSalleId = t.id';
 
-        $salles = $em->getRepository('AppBundle:Salle')->findAll();
+        $statement= $em->getConnection()->prepare($query);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        $salles = $result;
 
         return $this->render('salle/index.html.twig', array(
             'salles' => $salles,
@@ -41,11 +52,26 @@ class SalleController extends Controller
     public function newAction(Request $request)
     {
         $salle = new Salle();
-        $form = $this->createForm('AppBundle\Form\SalleType', $salle);
+        $em = $this->getDoctrine()->getManager();
+        $typesSalles = $em->getRepository('AppBundle:TypeSalle')->findAll();
+        $arraySuggestion=[];
+        foreach ($typesSalles as $typeSalle)
+        {
+            $arraySuggestion = [$typeSalle->getNom()=>$typeSalle->getId()];
+        }
+
+        $form = $form = $this->createFormBuilder()
+            ->add('type_de_salle', ChoiceType::class, array(
+                'choices'  =>$arraySuggestion))
+            ->add('numero_de_salle', TextType::class)
+            ->add('capacite', IntegerType::class)
+            ->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $salle->setTypeSalleId($form->getData()['type_de_salle']);
+            $salle->setCapacite($form->getData()['capacite']);
+            $salle->setNumero($form->getData()['numero_de_salle']);
             $em->persist($salle);
             $em->flush();
 
@@ -84,19 +110,34 @@ class SalleController extends Controller
      */
     public function editAction(Request $request, Salle $salle)
     {
+        $em=$this->getDoctrine()->getManager();
         $deleteForm = $this->createDeleteForm($salle);
-        $editForm = $this->createForm('AppBundle\Form\SalleType', $salle);
-        $editForm->handleRequest($request);
+        $typesSalles = $em->getRepository('AppBundle:TypeSalle')->findAll();
+        $arraySuggestion=[];
+        foreach ($typesSalles as $typeSalle)
+        {
+            $arraySuggestion = [$typeSalle->getNom()=>$typeSalle->getId()];
+        }
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        $form = $form = $this->createFormBuilder()
+            ->add('type_de_salle', ChoiceType::class, array(
+                'choices'  =>$arraySuggestion))
+            ->add('numero_de_salle', TextType::class,array('data'=>$salle->getNumero()))
+            ->add('capacite', IntegerType::class,array('data'=>$salle->getCapacite()))
+            ->getForm();
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $salle->setTypeSalleId($form->getData()['type_de_salle']);
+            $salle->setCapacite($form->getData()['capacite']);
+            $salle->setNumero($form->getData()['numero_de_salle']);
+            $em->flush();
             return $this->redirectToRoute('salle_edit', array('id' => $salle->getId()));
         }
 
         return $this->render('salle/edit.html.twig', array(
             'salle' => $salle,
-            'edit_form' => $editForm->createView(),
+            'edit_form' => $form->createView(),
             'delete_form' => $deleteForm->createView(),
             'user' => $this->get('session')->get('user'),
         ));

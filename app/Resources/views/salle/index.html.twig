@@ -7,7 +7,7 @@
         <thead>
             <tr>
                 {#<th>Id</th>#}
-                <th class="center table-title">Typesalleid</th>
+                <th class="center table-title">Type de salle</th>
                 <th class="center table-title">Numero</th>
                 <th class="center table-title">Capacite</th>
                 <th class="center table-title">Actions</th>
@@ -17,7 +17,7 @@
         {% for salle in salles %}
             <tr>
                 {#<td><a href="{{ path('salle_show', { 'id': salle.id }) }}">{{ salle.id }}</a></td>#}
-                <td class="center">{{ salle.typeSalleId }}</td>
+                <td class="center">{{ salle.typesalle }}</td>
                 <td class="center">{{ salle.numero }}</td>
                 <td class="center">{{ salle.capacite }}</td>
                 <td class="center">

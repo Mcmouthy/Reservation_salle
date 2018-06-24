@@ -80,7 +80,7 @@ class PersonneController extends Controller
         $personne = new Personne();
         $form = $this->createFormBuilder()
             ->add('login', TextType::class)
-            ->add('pwd', PasswordType::class)
+            ->add('mot_de_passe', PasswordType::class)
             ->add('validate', SubmitType::class, array('label' => 'Se connecter'))
             ->getForm();
 
@@ -90,7 +90,7 @@ class PersonneController extends Controller
             // $form->getData() holds the submitted values
             // but, the original `$task` variable has also been updated
             $personne->setLogin($form->getData()['login']);
-            $personne->setPwd(md5($form->getData()['pwd']));
+            $personne->setPwd(md5($form->getData()['mot_de_passe']));
 
             return $this->validateFormUser($personne);
         }

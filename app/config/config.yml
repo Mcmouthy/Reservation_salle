@@ -38,6 +38,7 @@ twig:
     form_themes:
             - 'bootstrap_4_layout.html.twig'
 
+
 # Doctrine Configuration
 doctrine:
     dbal:

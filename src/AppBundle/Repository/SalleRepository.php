@@ -10,4 +10,15 @@ namespace AppBundle\Repository;
  */
 class SalleRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllJoinedToType()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $query = 'SELECT s.numero, s.capacite, t.nom t FROM TABLE_NAME SALLE s
+        JOIN  TYPESALLE t ON s.typeSalleId = t.id';
+
+        $statement= $em->getConnection()->prepare($query);
+
+        return $statement->execute()->fetchAll();
+
+    }
 }
