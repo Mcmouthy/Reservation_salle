@@ -19,8 +19,8 @@ create table RESERVE (
    personneId          INT4          not null,
    salleId             INT4          not null,
    duree        INT4                 not null,
-   dateDebut    DATE                 not null,
-   dateFin      DATE                 not null,
+   dateDebut    TIMESTAMP                 not null,
+   dateFin      TIMESTAMP                 not null,
    code         INT4                 not null,
    status       INT4                 not null,
    constraint PK_RESERVE primary key (id,personneId, salleId)
@@ -55,3 +55,14 @@ alter table SALLE
    add constraint FK_SALLE_CORRESPON_TYPESALL foreign key (typeSalleId)
       references TYPESALLE (id)
       on delete restrict on update restrict;
+
+
+
+/*insert into reserve (personneID,salleID,duree,dateDebut,dateFin,code,status) values (4,1,30,now(),now() + interval'2 hours',123,1);
+insert into reserve (personneID,salleID,duree,dateDebut,dateFin,code,status) values (4,3,30,now() - interval'1 hour',now() - interval'30 minutes',789,1);
+insert into reserve (personneID,salleID,duree,dateDebut,dateFin,code,status) values (4,2,30,now() - interval'1 hour',now() + interval'30 minutes',456,2);
+insert into reserve (personneID,salleID,duree,dateDebut,dateFin,code,status) values (4,3,30,now(),now() + interval'2 hours',123,1);*/
+
+/*PROCEDURE TO DELETE RESERVATION 15 minutes after starting if no one in it*/
+CREATE OR REPLACE FUNCTION check_reservation(duration interval) RETURNS void AS'
+	DELETE FROM reserve where dateDebut <= (now()-duration) and status = 1;' LANGUAGE SQL;
