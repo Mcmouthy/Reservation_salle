@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Salle;
+use AppBundle\Entity\TypeSalle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -57,7 +58,7 @@ class SalleController extends Controller
         $arraySuggestion=[];
         foreach ($typesSalles as $typeSalle)
         {
-            $arraySuggestion = [$typeSalle->getNom()=>$typeSalle->getId()];
+            $arraySuggestion[$typeSalle->getNom()] = $typeSalle->getId();
         }
 
         $form = $form = $this->createFormBuilder()
@@ -95,8 +96,15 @@ class SalleController extends Controller
     {
         $deleteForm = $this->createDeleteForm($salle);
 
+        $em = $this->getDoctrine()->getManager();
+        $query = 'SELECT s.id, s.numero, s.capacite, t.nom typeSalle FROM SALLE s
+        JOIN  TYPESALLE t ON s.typeSalleId = t.id where s.id = '. $salle -> getId();
+        $statement= $em->getConnection()->prepare($query);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        $full_salle = $result;
         return $this->render('salle/show.html.twig', array(
-            'salle' => $salle,
+            'salle' => $full_salle,
             'delete_form' => $deleteForm->createView(),
             'user' => $this->get('session')->get('user'),
         ));
@@ -112,16 +120,21 @@ class SalleController extends Controller
     {
         $em=$this->getDoctrine()->getManager();
         $deleteForm = $this->createDeleteForm($salle);
+
         $typesSalles = $em->getRepository('AppBundle:TypeSalle')->findAll();
         $arraySuggestion=[];
         foreach ($typesSalles as $typeSalle)
         {
-            $arraySuggestion = [$typeSalle->getNom()=>$typeSalle->getId()];
+            $arraySuggestion[$typeSalle->getNom()] = $typeSalle->getId();
+            if($salle->getTypeSalleId() == $typeSalle -> getId()){
+                $selectedType = $typeSalle -> getId();
+            }
         }
 
-        $form = $form = $this->createFormBuilder()
+        $form = $this->createFormBuilder()
             ->add('type_de_salle', ChoiceType::class, array(
-                'choices'  =>$arraySuggestion))
+                'choices'  =>$arraySuggestion,
+                'data' => $selectedType))
             ->add('numero_de_salle', TextType::class,array('data'=>$salle->getNumero()))
             ->add('capacite', IntegerType::class,array('data'=>$salle->getCapacite()))
             ->getForm();

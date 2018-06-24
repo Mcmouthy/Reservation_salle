@@ -2,30 +2,32 @@
 
 {% block body %}
     <h1 class="center">Salle</h1>
+    {% for s in salle %}
+        <table class="table table-striped table-bordered table-style-delete">
+            <tbody>
 
-    <table class="table table-striped table-bordered table-style-delete">
-        <tbody>
-            {#<tr>
-                <th class="center table-title">Id</th>
-                <td class="center">{{ salle.id }}</td>
-            </tr>#}
-            <tr>
-                <th class="center table-title">Typesalleid</th>
-                <td class="center">{{ salle.typeSalleId }}</td>
-            </tr>
-            <tr>
-                <th class="center table-title">Numero</th>
-                <td class="center">{{ salle.numero }}</td>
-            </tr>
-            <tr>
-                <th class="center table-title">Capacite</th>
-                <td class="center">{{ salle.capacite }}</td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="center div-form-style">
-        <a class="btn btn-success" href="{{ path('salle_edit', { 'id': salle.id }) }}">Edit</a>
-    </div>
+                {#<tr>
+                    <th class="center table-title">Id</th>
+                    <td class="center">{{ salle.id }}</td>
+                </tr>#}
+                <tr>
+                    <th class="center table-title">Type de salle</th>
+                    <td class="center">{{ s.typesalle }}</td>
+                </tr>
+                <tr>
+                    <th class="center table-title">Numero</th>
+                    <td class="center">{{ s.numero }}</td>
+                </tr>
+                <tr>
+                    <th class="center table-title">Capacite</th>
+                    <td class="center">{{ s.capacite }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="center div-form-style">
+            <a class="btn btn-success" href="{{ path('salle_edit', { 'id': s.id }) }}">Edit</a>
+        </div>
+    {% endfor %}
     <div class="center div-form-style">
         {{ form_start(delete_form) }}
         <a class="btn btn-primary" href="{{ path('salle_index') }}">Back to the list</a>

@@ -23,10 +23,10 @@ class Salle
 
     /**
      * @var int
-     *
      * @ORM\Column(name="typeSalleId", type="integer")
      */
     private $typeSalleId;
+
 
     /**
      * @var string
@@ -124,5 +124,11 @@ class Salle
     {
         return $this->capacite;
     }
+
+    public function getName()
+    {
+
+    }
+
 }
 
