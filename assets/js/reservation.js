@@ -11,7 +11,7 @@ function ajaxGetDisponibilities()
     var dateSelected = $("#dateSelected")[0].value;
     var capaciteSelected = $("#capacitySelected")[0].value;
     if (dateSelected !== ''){
-        $("#disponibleRoom").empty();
+        $("#DisponibilitiesRoom").empty();
         $.ajax({
             url:document.URL+'/disponibilities',
             type: "GET",
@@ -24,11 +24,30 @@ function ajaxGetDisponibilities()
             async: true,
             success: function (data)
             {
-                $("#disponibleRoom").append(data);
+                $("#DisponibilitiesRoom").append(data);
 
             }
         });
     }
+}
 
+function showHours(id)
+{
+    $(".btn-warning").removeClass("btn-warning").addClass("btn-primary")
+    $("#"+id).removeClass("btn-primary").addClass("btn-warning");
+    $("tfoot").remove();
+    $.ajax({
+        url:document.URL+'/hoursDispo',
+        type: "GET",
+        contentType: "html",
+        data: {
 
+        },
+        async: true,
+        success: function (data)
+        {
+            $("#tableDispo").append(data);
+
+        }
+    });
 }
