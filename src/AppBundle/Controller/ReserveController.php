@@ -28,9 +28,13 @@ class ReserveController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $reserves = $em->getRepository('AppBundle:Reserve')->findAll();
+        $salles = $em->getRepository('AppBundle:Salle')->findAll();
+        $personnes = $em->getRepository('AppBundle:Personne')->findAll();
 
         return $this->render('reserve/index.html.twig', array(
             'reserves' => $reserves,
+            'salles' => $salles,
+            'personnes' => $personnes,
             'user' => $this->get('session')->get('user'),
         ));
     }
@@ -73,10 +77,16 @@ class ReserveController extends Controller
      */
     public function showAction(Reserve $reserve)
     {
+        $em = $this->getDoctrine()->getManager();
+
         $deleteForm = $this->createDeleteForm($reserve);
+        $salles = $em->getRepository('AppBundle:Salle')->findAll();
+        $personnes = $em->getRepository('AppBundle:Personne')->findAll();
 
         return $this->render('reserve/show.html.twig', array(
             'reserve' => $reserve,
+            'salles' => $salles,
+            'personnes' => $personnes,
             'delete_form' => $deleteForm->createView(),
             'user' => $this->get('session')->get('user'),
         ));
