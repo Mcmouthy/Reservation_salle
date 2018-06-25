@@ -220,10 +220,10 @@ class ReserveController extends Controller
         foreach ($OccupiedHours as $occHour)
         {
             $nbCrenau=$occHour["duree"]/30;
-            $heureDebut = date("h:i",strtotime($occHour["datedebut"]));
+            $heureDebut = date("H:i",strtotime($occHour["datedebut"]));
             for ($i=1;$i<=$nbCrenau;$i++)
             {
-                $heureFin= date("h:i",strtotime("2000-01-01 ".$heureDebut)+60*30);
+                $heureFin= date("H:i",strtotime("2000-01-01 ".$heureDebut)+60*30);
                 $occupiedCrenau[] = $heureDebut." - ".$heureFin;
                 $heureDebut=$heureFin;
             }
