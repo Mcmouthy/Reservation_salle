@@ -44,6 +44,37 @@ class SalleController extends Controller
         ));
     }
 
+
+    /**
+     * Lists all salle statistics.
+     *
+     * @Route("/statistics", name="statistique")
+     * @Method("GET")
+     */
+    public function statistics()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $query = 'SELECT s.numero AS SALLE, t.nom as TYPESALLE, R.YEAR, R.MONTH, R.WEEK, SUM(R.duree) as TEMPS, SUM(R.duree)/27 as STAT FROM SALLE s
+                    JOIN  TYPESALLE t ON s.typeSalleId = t.id 
+                    JOIN (select r.salleId as SALLEID, 
+                      r.duree as DUREE, 
+                      extract(year from r.dateDebut) as YEAR, 
+                      extract(month from r.dateDebut) as MONTH, 
+                      extract(week from r.dateDebut) AS WEEK 
+                      from reserve r) R ON R.SALLEID = s.id 
+                    group by s.numero,t.nom,R.YEAR,R.MONTH,R.WEEK
+                    order by s.numero, R.YEAR,R.MONTH,R.WEEK';
+
+        $statement= $em->getConnection()->prepare($query);
+        $statement->execute();
+        $results = $statement->fetchAll();
+
+        return $this->render('salle/statistique.html.twig', array(
+            'results' => $results,
+            'user' => $this->get('session')->get('user'),
+        ));
+    }
+
     /**
      * Creates a new salle entity.
      *
