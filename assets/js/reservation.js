@@ -40,7 +40,7 @@ function showHours(id)
     $.ajax({
         url:document.URL+'/hoursDispo',
         type: "GET",
-        contentType: "json",
+        contentType: "html",
         data: {
             dateSelected: dateSelected.value,
             idSalleToCheck:id
@@ -48,7 +48,7 @@ function showHours(id)
         async: true,
         success: function (data)
         {
-            console.log(data);
+            $("#tableDispo").append(data);
 
         }
     });

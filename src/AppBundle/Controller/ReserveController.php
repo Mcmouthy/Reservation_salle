@@ -196,10 +196,10 @@ class ReserveController extends Controller
         $em= $this->getDoctrine()->getManager();
         $ReserveRepo = $em->getRepository("AppBundle:Reserve");
         $ArrayInitDispoHours=[
-            0=>"8:00 - 8:30",
-            1=>"8:30 - 9:00",
-            2=>"9:00 - 9:30",
-            3=>"9:30 - 10:00",
+            0=>"08:00 - 08:30",
+            1=>"08:30 - 09:00",
+            2=>"09:00 - 09:30",
+            3=>"09:30 - 10:00",
             4=>"10:00 - 10:30",
             5=>"10:30 - 11:00",
             6=>"11:00 - 11:30",
@@ -217,24 +217,29 @@ class ReserveController extends Controller
         ];
         $OccupiedHours=$ReserveRepo->getOccupiedHoursByIdSalle($params["dateSelected"],$params["idSalleToCheck"]);
         $occupiedCrenau = [];
-        /*foreach ($OccupiedHours as $occHour)
+        foreach ($OccupiedHours as $occHour)
         {
             $nbCrenau=$occHour["duree"]/30;
-            $heureDebut = date("h:i:s",strtotime($occHour["datedebut"]));
-            $heureFin = date("h:i:s",strtotime($occHour["datedebut"])+$nbCrenau*60*30);
+            $heureDebut = date("h:i",strtotime($occHour["datedebut"]));
             for ($i=1;$i<=$nbCrenau;$i++)
             {
-                $heureFin= date("h:i:s",strtotime()+$i*60*30);
+                $heureFin= date("h:i",strtotime("2000-01-01 ".$heureDebut)+60*30);
                 $occupiedCrenau[] = $heureDebut." - ".$heureFin;
+                $heureDebut=$heureFin;
             }
-            $heureDebut = date("h:i:s",strtotime($occHour["datedebut"]));
-            $heureFin = date("h:i:s",strtotime($occHour["datedebut"])+60*30);
-            var_dump($heureDebut." - ".$heureFin);
-            var_dump($nbCrenau);
-        }*/
-        var_dump($OccupiedHours);
-        return new JsonResponse(json_encode($OccupiedHours));
-        //$htmlToRender = $this->render("/reserve/hours.html.twig");
-        //return new Response($htmlToRender->getContent());
+        }
+
+        foreach($occupiedCrenau as $crenau)
+        {
+            var_dump($crenau);
+            if (in_array($crenau,$ArrayInitDispoHours))
+            {
+                $index = array_search($crenau,$ArrayInitDispoHours);
+                unset($ArrayInitDispoHours[$index]);
+            }
+        }
+
+        $htmlToRender = $this->render("/reserve/hours.html.twig",array("hours"=>$ArrayInitDispoHours));
+        return new Response($htmlToRender->getContent());
     }
 }
