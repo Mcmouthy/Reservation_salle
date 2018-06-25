@@ -27,7 +27,12 @@
                     <input id="dateSelected" type="date" onchange="ajaxGetDisponibilities()">
                 </td>
                 <td class="center">
-                    <input id="capacitySelected" type="number" onchange="ajaxGetDisponibilities()">
+                    <select id="capacitySelected" onchange="ajaxGetDisponibilities()" >
+                        <option value='2' selected >2</option>
+                        <option value='4'>4</option>
+                        <option value='6'>6</option>
+                    </select>
+                    <!--<input id="capacitySelected" type="number" onchange="ajaxGetDisponibilities()">-->
                 </td>
             </tr>
             </tbody>
