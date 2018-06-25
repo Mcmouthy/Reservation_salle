@@ -1,7 +1,24 @@
-{% for salle in salles %}
-    <tr>
-        <td class="center">{{ salle.numero }}</td>
-        <td class="center">{{ salle.nom }}</td>
-        <td class="center">{{ salle.capacite }}</td>
-    </tr>
-{% endfor %}
+<h2 class="center">Disponibilités</h2>
+<div class="center">
+
+    <table id="tableDispo" class="table table-striped table-bordered table-style">
+        <thead>
+            <tr>
+                <th class="center table-title">Salle</th>
+                <th class="center table-title">Type Salle</th>
+                <th class="center table-title">Capacité</th>
+                <th class="center table-title">Action</th>
+            </tr>
+        </thead>
+        <tbody id="disponibleRoom">
+        {% for salle in salles %}
+            <tr>
+                <td class="center">{{ salle.numero }}</td>
+                <td class="center">{{ salle.nom }}</td>
+                <td class="center">{{ salle.capacite }}</td>
+                <td class="center"><button id="{{ salle.numero }}" class="btn btn-primary" onclick="showHours(this.id)">Voir les disponibilités</button></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

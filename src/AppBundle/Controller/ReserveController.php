@@ -157,9 +157,8 @@ class ReserveController extends Controller
         $em=$this->getDoctrine()->getManager();
         $query = "Select s.capacite,s.numero, t.nom from SALLE s 
                   JOIN TYPESALLE t ON s.typeSalleid = t.id 
-                   AND s.id not in (
-                  select salleId from RESERVE r where 
-                  (select SUM(r.duree) from RESERVE r where r.dateDebut = '".date($params['dateSelected'])."')<9*60)";
+                   AND s.id not in 
+                  (select r.salleId from RESERVE r where r.dateDebut = '".$params['dateSelected']."' group by r.salleId HAVING(SUM(r.duree)>=9*60))";
         if($params["typeSalle"]){
             $query.=' AND s.typeSalleId ='.$params["typeSalle"];
         }
@@ -177,6 +176,18 @@ class ReserveController extends Controller
         }else{
             $htmlToRender = "";
         }
-        return new Response($htmlToRender);
+        return new Response($htmlToRender->getContent());
+    }
+
+    /**
+     * get salles disponibilities in ajax
+     * @Route("/new/hoursDispo", name="hours_dispo")
+     * @Method ("GET")
+     * @return  Response
+     */
+    public function ajaxHoursDispo(Request $request)
+    {
+        $htmlToRender = $this->render("/reserve/hours.html.twig");
+        return new Response($htmlToRender->getContent());
     }
 }
