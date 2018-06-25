@@ -123,18 +123,24 @@ class PersonneController extends Controller
     {
         $repository = $this->getDoctrine()->getRepository(Personne::class);
         $databasePerson= $repository->findOneBy(['login'=>$personne->getLogin()]);
-        if ($databasePerson->getPwd()==$personne->getPwd()){
-            $this->get('session')->set('user',array(
-                "id"=>$databasePerson->getId(),
-                "prenom"=>$databasePerson->getNom(),
-                "isAdmin"=>$databasePerson->getIsAdmin(),
-                "isConnected"=>1));
-            $this->get('session')->remove('errorLogin');
-            $this->get('session')->remove('creationUser');
+        if (!is_null($databasePerson)){
+            if ($databasePerson->getPwd()==$personne->getPwd()){
+                $this->get('session')->set('user',array(
+                    "id"=>$databasePerson->getId(),
+                    "prenom"=>$databasePerson->getNom(),
+                    "isAdmin"=>$databasePerson->getIsAdmin(),
+                    "isConnected"=>1));
+                $this->get('session')->remove('errorLogin');
+                $this->get('session')->remove('creationUser');
+            }else{
+                $this->get('session')->set('errorLogin',1);
+                return $this->redirectToRoute("personne_connexion");
+            }
         }else{
             $this->get('session')->set('errorLogin',1);
-           return $this->redirectToRoute("personne_connexion");
+            return $this->redirectToRoute("personne_connexion");
         }
+
         if ($databasePerson->getIsAdmin()){
             return $this->redirectToRoute("personne_index");
         }else{
