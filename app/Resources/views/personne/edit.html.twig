@@ -1,12 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 class="center">Personne edit</h1>
+    <h1 class="center">Edition de l'utilisateur</h1>
     <div class="center div-form-style">
-        {{ form_start(edit_form) }}
+        {% if user and user.isAdmin %}
+            {{ form_start(edit_form_admin) }}
+            {{ form_widget(edit_form_admin) }}
+            <input class = "btn btn-success" type="submit" value="Edit" />
+            {{ form_end(edit_form_admin) }}
+        {%  else %}
+            {{ form_start(edit_form) }}
             {{ form_widget(edit_form) }}
-                <input class = "btn btn-success" type="submit" value="Edit" />
-        {{ form_end(edit_form) }}
+            <input class = "btn btn-success" type="submit" value="Edit" />
+            {{ form_end(edit_form) }}
+        {% endif %}
     </div>
     <div class="center div-form-style">
         {{ form_start(delete_form) }}

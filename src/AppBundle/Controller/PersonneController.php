@@ -46,6 +46,7 @@ class PersonneController extends Controller
     {
         $personne = new Personne();
         $form = $this->createForm('AppBundle\Form\PersonneType', $personne);
+        $formAdmin = $this->createForm('AppBundle\Form\PersonneTypeFull', $personne);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -66,6 +67,7 @@ class PersonneController extends Controller
         return $this->render('personne/new.html.twig', array(
             'personne' => $personne,
             'form' => $form->createView(),
+            'formAdmin' => $formAdmin->createView(),
             'user' => $this->get('session')->get('user'),
         ));
     }
@@ -173,6 +175,7 @@ class PersonneController extends Controller
     {
         $deleteForm = $this->createDeleteForm($personne);
         $editForm = $this->createForm('AppBundle\Form\PersonneType', $personne);
+        $editFormUpdate = $this ->createForm('AppBundle\Form\PersonneTypeUpdate',$personne);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -185,6 +188,7 @@ class PersonneController extends Controller
             'personne' => $personne,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'edit_form_admin' => $editFormUpdate -> createView(),
             'user' => $this->get('session')->get('user'),
         ));
     }

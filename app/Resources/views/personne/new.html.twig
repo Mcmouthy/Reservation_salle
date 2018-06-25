@@ -1,14 +1,23 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 class="center" >Personne creation</h1>
+    <h1 class="center" >Création utilisateur</h1>
     <div class="div-form-style">
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <div class="center">
-            <input class = "btn btn-success" type="submit" value="Create" />
-        </div>
-        {{ form_end(form) }}
+        {% if user and user.isAdmin %}
+            {{ form_start(formAdmin) }}
+            {{ form_widget(formAdmin) }}
+            <div class="center">
+                <input class = "btn btn-success" type="submit" value="Create" />
+            </div>
+            {{ form_end(formAdmin) }}
+        {% else %}
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <div class="center">
+                <input class = "btn btn-success" type="submit" value="Create" />
+            </div>
+            {{ form_end(form) }}
+        {% endif %}
 
     </div>
     <div class="center div-form-style">
