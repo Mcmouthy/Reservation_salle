@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class PersonneTypeUpdate extends AbstractType
 {
@@ -13,7 +14,7 @@ class PersonneTypeUpdate extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nom')->add('prenom')->add('login')->add('isAdmin');
+        $builder->add('nom')->add('prenom')->add('login')->add('isAdmin', CheckboxType::class,array('label'=> 'Administrateur'));
     }/**
  * {@inheritdoc}
  */

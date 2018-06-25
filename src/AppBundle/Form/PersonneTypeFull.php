@@ -13,7 +13,7 @@ class PersonneTypeFull extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nom')->add('prenom')->add('login')->add('pwd')->add('isAdmin');
+        $builder->add('nom')->add('prenom')->add('login')->add('pwd')->add('isAdmin', CheckboxType::class,array('label'=> 'Administrateur'));
     }/**
  * {@inheritdoc}
  */
