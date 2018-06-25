@@ -16,7 +16,7 @@
                 <td class="center">{{ salle.numero }}</td>
                 <td class="center">{{ salle.nom }}</td>
                 <td class="center">{{ salle.capacite }}</td>
-                <td class="center"><button id="{{ salle.numero }}" class="btn btn-primary" onclick="showHours(this.id)">Voir les disponibilités</button></td>
+                <td class="center"><button id="{{ salle.id }}" class="btn btn-primary" onclick="showHours(this.id)">Voir les disponibilités</button></td>
             </tr>
         {% endfor %}
         </tbody>

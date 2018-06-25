@@ -1,15 +1,12 @@
 <tfoot>
 <tr>
     <td colspan="4">
-        <a class="btn btn-primary" href="#">8:00 - 8:30</a>
-        <a class="btn btn-primary" href="#">8:30 - 9:00</a>
-        <a class="btn btn-primary" href="#">9:00 - 9:30</a>
-        <a class="btn btn-primary" href="#">9:30 - 10:00</a>
-        <a class="btn btn-secondary" href="#">10:00 - 10:30</a>
-        <a class="btn btn-secondary" href="#">10:30 - 11:00</a>
+        {% for hour in hours %}
+            <a class="btn btn-primary" href="#">{{ hour }}</a>
+        {% endfor %}
     </td>
 </tr>
-<tr>
+<!--<tr>
     <td colspan="4">
 
         <a class="btn btn-primary" href="#">11:00 - 11:30</a>
@@ -29,5 +26,5 @@
         <a class="btn btn-secondary" href="#">17:00 - 17:30</a>
         <a class="btn btn-primary" href="#">17:30 - 18:00</a>
     </td>
-</tr>
+</tr>-->
 </tfoot>
