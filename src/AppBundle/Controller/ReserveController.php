@@ -6,6 +6,7 @@ use AppBundle\Entity\Reserve;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -155,7 +156,7 @@ class ReserveController extends Controller
             "dateSelected"=>$request->get('dateSelected'),
             "capaciteSelected"=>$request->get('capaciteSelected'));
         $em=$this->getDoctrine()->getManager();
-        $query = "Select s.capacite,s.numero, t.nom from SALLE s 
+        $query = "Select s.id,s.capacite,s.numero, t.nom from SALLE s 
                   JOIN TYPESALLE t ON s.typeSalleid = t.id 
                    AND s.id not in 
                   (select r.salleId from RESERVE r where r.dateDebut = '".$params['dateSelected']."' group by r.salleId HAVING(SUM(r.duree)>=9*60))";
@@ -174,7 +175,7 @@ class ReserveController extends Controller
         if (count($result)){
             $htmlToRender = $this->render("/reserve/dispo.html.twig",array("salles"=>$result));
         }else{
-            $htmlToRender = "";
+            $htmlToRender = $this->render("void.html.twig");
         }
         return new Response($htmlToRender->getContent());
     }
@@ -187,7 +188,53 @@ class ReserveController extends Controller
      */
     public function ajaxHoursDispo(Request $request)
     {
-        $htmlToRender = $this->render("/reserve/hours.html.twig");
-        return new Response($htmlToRender->getContent());
+        $params = array(
+            "dateSelected"=>$request->get('dateSelected'),
+            "idSalleToCheck"=>$request->get('idSalleToCheck')
+        );
+
+        $em= $this->getDoctrine()->getManager();
+        $ReserveRepo = $em->getRepository("AppBundle:Reserve");
+        $ArrayInitDispoHours=[
+            0=>"8:00 - 8:30",
+            1=>"8:30 - 9:00",
+            2=>"9:00 - 9:30",
+            3=>"9:30 - 10:00",
+            4=>"10:00 - 10:30",
+            5=>"10:30 - 11:00",
+            6=>"11:00 - 11:30",
+            8=>"11:30 - 12:00",
+            9=>"12:00 - 12:30",
+            10=>"13:00 - 13:30",
+            11=>"13:30 - 14:00",
+            11=>"14:00 - 14:30",
+            12=>"14:30 - 15:00",
+            13=>"15:00 - 15:30",
+            14=>"15:30 - 16:00",
+            15=>"16:30 - 17:00",
+            16=>"17:00 - 17:30",
+            17=>"17:30 - 18:00"
+        ];
+        $OccupiedHours=$ReserveRepo->getOccupiedHoursByIdSalle($params["dateSelected"],$params["idSalleToCheck"]);
+        $occupiedCrenau = [];
+        /*foreach ($OccupiedHours as $occHour)
+        {
+            $nbCrenau=$occHour["duree"]/30;
+            $heureDebut = date("h:i:s",strtotime($occHour["datedebut"]));
+            $heureFin = date("h:i:s",strtotime($occHour["datedebut"])+$nbCrenau*60*30);
+            for ($i=1;$i<=$nbCrenau;$i++)
+            {
+                $heureFin= date("h:i:s",strtotime()+$i*60*30);
+                $occupiedCrenau[] = $heureDebut." - ".$heureFin;
+            }
+            $heureDebut = date("h:i:s",strtotime($occHour["datedebut"]));
+            $heureFin = date("h:i:s",strtotime($occHour["datedebut"])+60*30);
+            var_dump($heureDebut." - ".$heureFin);
+            var_dump($nbCrenau);
+        }*/
+        var_dump($OccupiedHours);
+        return new JsonResponse(json_encode($OccupiedHours));
+        //$htmlToRender = $this->render("/reserve/hours.html.twig");
+        //return new Response($htmlToRender->getContent());
     }
 }

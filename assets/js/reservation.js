@@ -36,17 +36,19 @@ function showHours(id)
     $(".btn-warning").removeClass("btn-warning").addClass("btn-primary")
     $("#"+id).removeClass("btn-primary").addClass("btn-warning");
     $("tfoot").remove();
+
     $.ajax({
         url:document.URL+'/hoursDispo',
         type: "GET",
-        contentType: "html",
+        contentType: "json",
         data: {
-
+            dateSelected: dateSelected.value,
+            idSalleToCheck:id
         },
         async: true,
         success: function (data)
         {
-            $("#tableDispo").append(data);
+            console.log(data);
 
         }
     });

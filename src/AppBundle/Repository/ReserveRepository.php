@@ -10,4 +10,12 @@ namespace AppBundle\Repository;
  */
 class ReserveRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getOccupiedHoursByIdSalle($dateToCheck,$idSalle){
+        $em= $this->getEntityManager();
+        $query = "select r.dateDebut, r.duree FROM RESERVE r WHERE
+                r.DateDebut::date='".$dateToCheck."' AND r.salleId=".$idSalle.";";
+        $statement = $em->getConnection()->prepare($query);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
 }
