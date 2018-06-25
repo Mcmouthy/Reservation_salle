@@ -97,7 +97,7 @@ class SalleController extends Controller
                 'choices'  =>$arraySuggestion))
             ->add('numero_de_salle', TextType::class)
             ->add('capacite', ChoiceType::class, array(
-                'choices' => [2,4,6]
+                'choices' => array(2=>2,4=>4,6=>6)
             ))
             ->getForm();
         $form->handleRequest($request);
