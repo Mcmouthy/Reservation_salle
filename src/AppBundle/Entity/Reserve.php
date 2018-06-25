@@ -45,14 +45,14 @@ class Reserve
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateDebut", type="datetime")
+     * @ORM\Column(name="dateDebut", type="timestamp")
      */
     private $dateDebut;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateFin", type="datetime")
+     * @ORM\Column(name="dateFin", type="timestamp")
      */
     private $dateFin;
 
