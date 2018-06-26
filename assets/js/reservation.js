@@ -59,21 +59,33 @@ function getPossibleFollowedButton(id)
     //$(".btn-hoursDispo");
     var followed = true;
     var current_id = 0;
-    var firstButton = $(".btn-hoursDispo"+".btn-warning");
-    var lastButton = $(".btn-hoursDispo"+".btn-danger");
-    var clickedButtonFirst = $("#" + id + ".btn-warning");
-    var clickedButtonLast = $("#" + id + ".btn-danger");
-    console.log($("#validate_reservation"));
-    if(clickedButtonLast.length == 1){
-        clickedButtonLast.removeClass("btn-danger");
-        $("#validate_reservation").hide();
-    }else if(clickedButtonFirst.length == 1){
-        clickedButtonFirst.removeClass("btn-warning");
-        $(".btn-danger").removeClass("btn-danger");
-        $("#validate_reservation").hide();
+    var firstButton = $(".btn-first");
+    var lastButton = $(".btn-last");
+    var clickedButtonFirst = $("#" + id + ".btn-first");
+    var clickedButtonLast = $("#" + id + ".btn-last");
+    if(clickedButtonLast.length == 1 && clickedButtonFirst.length ==0){
         $.each($(".btn-hoursDispo"), function (index, value) {
-            $("#" + value.id + ".btn-hoursDispo").show();
+;            if($("#"+value.id+".btn-warning"+".btn-hoursDispo").length==1){
+                if(parseInt(value.id) == parseInt(firstButton[0].id)){
+                    firstButton.addClass('btn-last');
+                }else{
+                    $("#"+value.id+".btn-warning"+".btn-hoursDispo").removeClass('btn-warning');
+                }
+            }
+            clickedButtonLast.removeClass('btn-last');
+        $(".btn-first").addClass("btn-last");
         });
+    }else if(clickedButtonFirst.length == 1){
+        $.each($(".btn-hoursDispo"), function (index, value) {
+            if($("#"+value.id+".btn-warning"+".btn-hoursDispo").length==1){
+                $("#"+value.id+".btn-warning"+".btn-hoursDispo").removeClass('btn-warning');
+                $("#" + value.id + ".btn-hoursDispo").show();
+            }
+            firstButton.removeClass("btn-first");
+            lastButton.removeClass("btn-last");
+            $('#validate_reservation').hide();
+        });
+        $("#validate_reservation").hide();
     }else if(firstButton.length ==0) {
         $.each($(".btn-hoursDispo"), function (index, value) {
             if (followed) {
@@ -81,6 +93,8 @@ function getPossibleFollowedButton(id)
                     $("#" + value.id + ".btn-hoursDispo").hide();
                 } else if (parseInt(value.id) == parseInt(id)) {
                     $("#" + value.id + ".btn-hoursDispo").addClass("btn-warning");
+                    $("#" + value.id + ".btn-hoursDispo").addClass("btn-first");
+                    $("#" + value.id + ".btn-hoursDispo").addClass("btn-last");
                     current_id = parseInt(value.id);
                 } else {
                     if (parseInt(value.id) != current_id + 1) {
@@ -95,9 +109,14 @@ function getPossibleFollowedButton(id)
             }
 
         });
-    }else if(firstButton.length == 1 && lastButton.length ==0){
-        $("#" + id + ".btn-hoursDispo").addClass("btn-danger");
-        $("#validate_reservation").show();
+        $('#validate_reservation').show();
+    }else if(firstButton.length == 1 && parseInt(firstButton[0].id) == parseInt(lastButton[0].id)){
+        firstButton.removeClass("btn-last");
+        $("#" + id + ".btn-hoursDispo").addClass("btn-last");
+        $.each($(".btn-hoursDispo"), function (index, value) {
+            if(value.id > firstButton[0].id && value.id <= $("#" + id + ".btn-hoursDispo")[0].id)
+            $("#" + value.id + ".btn-hoursDispo").addClass("btn-warning");
+        });
     }
     
 }
