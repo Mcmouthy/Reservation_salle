@@ -213,10 +213,10 @@ class ReserveController extends Controller
             4=>"10:00 - 10:30",
             5=>"10:30 - 11:00",
             6=>"11:00 - 11:30",
-            8=>"11:30 - 12:00",
-            9=>"12:00 - 12:30",
-            10=>"13:00 - 13:30",
-            11=>"13:30 - 14:00",
+            7=>"11:30 - 12:00",
+            8=>"12:00 - 12:30",
+            9=>"13:00 - 13:30",
+            10=>"13:30 - 14:00",
             11=>"14:00 - 14:30",
             12=>"14:30 - 15:00",
             13=>"15:00 - 15:30",
@@ -241,7 +241,7 @@ class ReserveController extends Controller
 
         foreach($occupiedCrenau as $crenau)
         {
-            var_dump($crenau);
+
             if (in_array($crenau,$ArrayInitDispoHours))
             {
                 $index = array_search($crenau,$ArrayInitDispoHours);
@@ -249,7 +249,31 @@ class ReserveController extends Controller
             }
         }
 
-        $htmlToRender = $this->render("/reserve/hours.html.twig",array("hours"=>$ArrayInitDispoHours));
+        $firstArray = [];
+        $secondArray = [];
+        $thirdArray=[];
+        $count=0;
+        foreach ($ArrayInitDispoHours as $c)
+        {
+            if ($count<=6)
+            {
+                $firstArray [array_search($c,$ArrayInitDispoHours)]= $c;
+                $count++;
+            }elseif ($count>6 && $count<=12)
+            {
+                $secondArray [array_search($c,$ArrayInitDispoHours)] = $c;
+                $count++;
+            }else{
+                $thirdArray[array_search($c,$ArrayInitDispoHours)]=$c;
+                $count++;
+            }
+        }
+
+
+        $htmlToRender = $this->render("/reserve/hours.html.twig",
+            array("hoursFirst"=>$firstArray,
+            "hoursSecond"=>$secondArray,
+                "hoursThird"=>$thirdArray));
         return new Response($htmlToRender->getContent());
     }
 }

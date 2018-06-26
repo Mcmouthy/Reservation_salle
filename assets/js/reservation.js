@@ -53,3 +53,15 @@ function showHours(id)
         }
     });
 }
+
+function getPossibleFollowedButton(id)
+{
+    //$(".btn-hoursDispo");
+    $.each($(".btn-hoursDispo"),function(index,value){
+
+        if (parseInt(value.id) < parseInt(id)){
+            $("#"+value.id+".btn-hoursDispo").hide();
+        }
+    });
+    
+}

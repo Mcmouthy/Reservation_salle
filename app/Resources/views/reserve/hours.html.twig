@@ -1,30 +1,23 @@
 <tfoot>
 <tr>
     <td colspan="4">
-        {% for hour in hours %}
-            <a class="btn btn-primary" href="#">{{ hour }}</a>
+        {% for key, hour in hoursFirst %}
+            <a id="{{ key }}" class="btn btn-primary btn-hoursDispo"  onclick="getPossibleFollowedButton(this.id)">{{ hour }}</a>
         {% endfor %}
     </td>
 </tr>
-<!--<tr>
+<<tr>
     <td colspan="4">
-
-        <a class="btn btn-primary" href="#">11:00 - 11:30</a>
-        <a class="btn btn-primary" href="#">11:30 - 12:00</a>
-        <a class="btn btn-primary" href="#">12:00 - 12:30</a>
-        <a class="btn btn-primary" href="#">13:00 - 13:30</a>
-        <a class="btn btn-primary" href="#">13:30 - 14:00</a>
-        <a class="btn btn-primary" href="#">14:00 - 14:30</a>
+        {% for key, hour in hoursSecond %}
+            <a id="{{ key }}" class="btn btn-primary btn-hoursDispo"  onclick="getPossibleFollowedButton(this.id)">{{ hour }}</a>
+        {% endfor %}
     </td>
 </tr>
 <tr>
     <td colspan="4">
-        <a class="btn btn-primary" href="#">14:30 - 15:00</a>
-        <a class="btn btn-primary" href="#">15:00 - 15:30</a>
-        <a class="btn btn-secondary" href="#">15:30 - 16:00</a>
-        <a class="btn btn-secondary" href="#">16:30 - 17:00</a>
-        <a class="btn btn-secondary" href="#">17:00 - 17:30</a>
-        <a class="btn btn-primary" href="#">17:30 - 18:00</a>
+        {% for key, hour in hoursThird %}
+            <a id="{{ key }}" class="btn btn-primary btn-hoursDispo"  onclick="getPossibleFollowedButton(this.id)">{{ hour }}</a>
+        {% endfor %}
     </td>
 </tr>-->
 </tfoot>
