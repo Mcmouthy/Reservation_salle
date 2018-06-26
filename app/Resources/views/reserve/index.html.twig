@@ -20,37 +20,34 @@
             </thead>
             <tbody>
             {% for reserve in reserves %}
-                {% if reserve.personneId == user.id %}
-                    <tr>
-                        {#<td class="center"><a href="{{ path('reserve_show', { 'id': reserve.id }) }}">{{ reserve.id }}</a></td>#}
-                        {% if user and user.isAdmin %}
-                            {% for personne in personnes %}
-                                {% if personne.id == reserve.personneId%}
-                                    <td class="center">{{ personne.login }}</td>
-                                {% endif %}
-                            {% endfor %}
+                {% if user and user.isAdmin or reserve.personneId == user.id%}
+                <tr>
+                    {% for personne in personnes %}
+                        {%  if personne.id == reserve.personneId %}
+                            <td class="center">{{ personne.prenom }} {{ personne.nom}}</td>
                         {% endif %}
-                        {% for salle in salles %}
-                            {% if salle.id == reserve.salleId%}
-                                <td class="center">{{ salle.numero}}</td>
-                            {% endif %}
-                        {% endfor %}
-                        <td class="center">{{ reserve.duree }}</td>
-                        <td class="center">{% if reserve.dateDebut %}{{ reserve.dateDebut|date('Y-m-d H:i:s') }}{% endif %}</td>
-                        <td class="center">{% if reserve.dateFin %}{{ reserve.dateFin|date('Y-m-d H:i:s') }}{% endif %}</td>
-                        <td class="center">{{ reserve.code }}</td>
-                        <td class="center">
-                            <a class="btn btn-info btn-sm" href="{{ path('reserve_show', { 'id': reserve.id }) }}">show</a>
-                            <a class="btn btn-warning btn-sm" href="{{ path('reserve_edit', { 'id': reserve.id }) }}">edit</a>
-                        </td>
-                    </tr>
+                    {% endfor %}
+                    {% for salle in salles %}
+                        {% if salle.id == reserve.salleId%}
+                            <td class="center">{{ salle.numero}}</td>
+                        {% endif %}
+                    {% endfor %}
+                    <td class="center">{{ reserve.duree }}</td>
+                    <td class="center">{% if reserve.dateDebut %}{{ reserve.dateDebut|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td class="center">{% if reserve.dateFin %}{{ reserve.dateFin|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td class="center">{{ reserve.code }}</td>
+                    <td class="center">
+                        <a class="btn btn-info btn-sm" href="{{ path('reserve_show', { 'id': reserve.id }) }}">show</a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('reserve_edit', { 'id': reserve.id }) }}">edit</a>
+                    </td>
+                </tr>
                 {% endif %}
             {% endfor %}
             </tbody>
         </table>
     </div>
     <div class="center div-form-style">
-        <a class="btn btn-primary" href="{{ path('reserve_new') }}">Réserver</a>
+        <a class="btn btn-primary" href="{{ path('reserve_new') }}">Create a new reserve</a>
     </div>
 
 {% endblock %}
