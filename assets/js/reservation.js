@@ -63,11 +63,14 @@ function getPossibleFollowedButton(id)
     var lastButton = $(".btn-hoursDispo"+".btn-danger");
     var clickedButtonFirst = $("#" + id + ".btn-warning");
     var clickedButtonLast = $("#" + id + ".btn-danger");
+    console.log($("#validate_reservation"));
     if(clickedButtonLast.length == 1){
         clickedButtonLast.removeClass("btn-danger");
+        $("#validate_reservation").hide();
     }else if(clickedButtonFirst.length == 1){
         clickedButtonFirst.removeClass("btn-warning");
-        clickedButtonLast.removeClass("btn-danger");
+        $(".btn-danger").removeClass("btn-danger");
+        $("#validate_reservation").hide();
         $.each($(".btn-hoursDispo"), function (index, value) {
             $("#" + value.id + ".btn-hoursDispo").show();
         });
@@ -94,6 +97,7 @@ function getPossibleFollowedButton(id)
         });
     }else if(firstButton.length == 1){
         $("#" + id + ".btn-hoursDispo").addClass("btn-danger");
+        $("#validate_reservation").show();
     }
     
 }
