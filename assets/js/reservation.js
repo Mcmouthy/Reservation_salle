@@ -95,7 +95,7 @@ function getPossibleFollowedButton(id)
             }
 
         });
-    }else if(firstButton.length == 1){
+    }else if(firstButton.length == 1 && lastButton.length ==0){
         $("#" + id + ".btn-hoursDispo").addClass("btn-danger");
         $("#validate_reservation").show();
     }
