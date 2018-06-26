@@ -101,3 +101,7 @@ function getPossibleFollowedButton(id)
     }
     
 }
+
+function validate_reservation(){
+
+}
