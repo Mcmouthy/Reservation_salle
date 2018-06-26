@@ -57,11 +57,43 @@ function showHours(id)
 function getPossibleFollowedButton(id)
 {
     //$(".btn-hoursDispo");
-    $.each($(".btn-hoursDispo"),function(index,value){
+    var followed = true;
+    var current_id = 0;
+    var firstButton = $(".btn-hoursDispo"+".btn-warning");
+    var lastButton = $(".btn-hoursDispo"+".btn-danger");
+    var clickedButtonFirst = $("#" + id + ".btn-warning");
+    var clickedButtonLast = $("#" + id + ".btn-danger");
+    if(clickedButtonLast.length == 1){
+        clickedButtonLast.removeClass("btn-danger");
+    }else if(clickedButtonFirst.length == 1){
+        clickedButtonFirst.removeClass("btn-warning");
+        clickedButtonLast.removeClass("btn-danger");
+        $.each($(".btn-hoursDispo"), function (index, value) {
+            $("#" + value.id + ".btn-hoursDispo").show();
+        });
+    }else if(firstButton.length ==0) {
+        $.each($(".btn-hoursDispo"), function (index, value) {
+            if (followed) {
+                if (parseInt(value.id) < parseInt(id)) {
+                    $("#" + value.id + ".btn-hoursDispo").hide();
+                } else if (parseInt(value.id) == parseInt(id)) {
+                    $("#" + value.id + ".btn-hoursDispo").addClass("btn-warning");
+                    current_id = parseInt(value.id);
+                } else {
+                    if (parseInt(value.id) != current_id + 1) {
+                        followed = false;
+                        $("#" + value.id + ".btn-hoursDispo").hide();
+                    } else {
+                        current_id = parseInt(value.id);
+                    }
+                }
+            } else {
+                $("#" + value.id + ".btn-hoursDispo").hide();
+            }
 
-        if (parseInt(value.id) < parseInt(id)){
-            $("#"+value.id+".btn-hoursDispo").hide();
-        }
-    });
+        });
+    }else if(firstButton.length == 1){
+        $("#" + id + ".btn-hoursDispo").addClass("btn-danger");
+    }
     
 }
