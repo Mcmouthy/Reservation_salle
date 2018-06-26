@@ -22,11 +22,11 @@
             {% for reserve in reserves %}
                 {% if reserve.personneId == user.id %}
                     <tr>
-                        {#<td class="center"><a href="{{ path('reserve_show', { 'id': reserve.id }) }}">{{ reserve.id }}</a></td>#}*
+                        {#<td class="center"><a href="{{ path('reserve_show', { 'id': reserve.id }) }}">{{ reserve.id }}</a></td>#}
                         {% if user and user.isAdmin %}
                             {% for personne in personnes %}
                                 {% if personne.id == reserve.personneId%}
-                                    <td class="center">{{ personne.prenom }} {{ personne.nom}}</td>
+                                    <td class="center">{{ personne.login }}</td>
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
@@ -50,7 +50,7 @@
         </table>
     </div>
     <div class="center div-form-style">
-        <a class="btn btn-primary" href="{{ path('reserve_new') }}">Create a new reserve</a>
+        <a class="btn btn-primary" href="{{ path('reserve_new') }}">Réserver</a>
     </div>
 
 {% endblock %}
