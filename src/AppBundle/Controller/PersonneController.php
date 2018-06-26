@@ -129,7 +129,7 @@ class PersonneController extends Controller
             if ($databasePerson->getPwd()==$personne->getPwd()){
                 $this->get('session')->set('user',array(
                     "id"=>$databasePerson->getId(),
-                    "prenom"=>$databasePerson->getNom(),
+                    "prenom"=>$databasePerson->getPrenom(),
                     "isAdmin"=>$databasePerson->getIsAdmin(),
                     "isConnected"=>1));
                 $this->get('session')->remove('errorLogin');
