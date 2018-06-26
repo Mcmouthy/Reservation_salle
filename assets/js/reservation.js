@@ -114,7 +114,7 @@ function getPossibleFollowedButton(id)
         firstButton.removeClass("btn-last");
         $("#" + id + ".btn-hoursDispo").addClass("btn-last");
         $.each($(".btn-hoursDispo"), function (index, value) {
-            if(value.id > firstButton[0].id && value.id <= $("#" + id + ".btn-hoursDispo")[0].id)
+            if(parseInt(value.id) > parseInt(firstButton[0].id) && parseInt(value.id) <= parseInt($("#" + id + ".btn-hoursDispo")[0].id))
             $("#" + value.id + ".btn-hoursDispo").addClass("btn-warning");
         });
     }
