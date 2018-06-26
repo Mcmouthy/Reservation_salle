@@ -180,8 +180,12 @@ class PersonneController extends Controller
     public function editAction(Request $request, Personne $personne)
     {
         $deleteForm = $this->createDeleteForm($personne);
-        $editForm = $this->createForm('AppBundle\Form\PersonneType', $personne);
-        $editFormUpdate = $this ->createForm('AppBundle\Form\PersonneTypeUpdate',$personne);
+        if ($this->get('session')->get('user')['isAdmin']){
+            $editForm = $this ->createForm('AppBundle\Form\PersonneTypeUpdate',$personne);
+
+        }else{
+            $editForm = $this->createForm('AppBundle\Form\PersonneType', $personne);
+        }
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -194,7 +198,6 @@ class PersonneController extends Controller
             'personne' => $personne,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'edit_form_admin' => $editFormUpdate -> createView(),
             'user' => $this->get('session')->get('user'),
         ));
     }

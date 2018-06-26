@@ -44,17 +44,17 @@ create table TYPESALLE (
 alter table RESERVE
    add constraint FK_RESERVE_RESERVE_SALLE foreign key (salleId)
       references SALLE (id)
-      on delete restrict on update restrict;
+      on delete CASCADE on update restrict;
 
 alter table RESERVE
    add constraint FK_RESERVE_RESERVE2_PERSONNE foreign key (personneId)
       references PERSONNE (id)
-      on delete restrict on update restrict;
+      on delete CASCADE on update restrict;
 
 alter table SALLE
    add constraint FK_SALLE_CORRESPON_TYPESALL foreign key (typeSalleId)
       references TYPESALLE (id)
-      on delete restrict on update restrict;
+      on delete CASCADE on update restrict;
 
 
 
