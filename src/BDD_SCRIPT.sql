@@ -22,7 +22,7 @@ create table RESERVE (
    dateDebut    TIMESTAMP                 not null,
    dateFin      TIMESTAMP                 not null,
    code         INT4                 not null,
-   status       INT4                 not null,
+   status       INT4                 default 1 not null,
    constraint PK_RESERVE primary key (id,personneId, salleId)
 );
 

@@ -99,5 +99,32 @@ function getPossibleFollowedButton(id)
         $("#" + id + ".btn-hoursDispo").addClass("btn-danger");
         $("#validate_reservation").show();
     }
-    
+}
+
+function ajaxCreateReservation()
+{
+    var date=$("#dateSelected")[0].value;
+    var idSalle = $("tbody .btn-warning")[0].id;
+    var heureDebut = $("tfoot .btn-first")[0].innerHTML.split(' - ')[0];
+    var heureFin = $("tfoot .btn-last")[0].innerHTML.split(' - ')[1];
+    var duree = (1+parseInt($("tfoot .btn-last")[0].id)-parseInt($("tfoot .btn-first")[0].id))*30
+
+    $.ajax({
+        url:document.URL+'/create',
+        type: "GET",
+        contentType: "json",
+        data: {
+            dateDebut: (date+" "+heureDebut+":00"),
+            dateFin: (date+" "+heureFin+":00"),
+            duree: duree,
+            idSalle:idSalle,
+        },
+        async: true,
+        success: function (data)
+        {
+            json = JSON.parse(data);
+            window.location.href = document.baseURI.split('/reserve/new')[0]+"/reserve/"+json["id"];
+        }
+    });
+
 }

@@ -191,7 +191,7 @@ class ReserveController extends Controller
     }
 
     /**
-     * get salles disponibilities in ajax
+     * get hours disponibilities in ajax
      * @Route("/new/hoursDispo", name="hours_dispo")
      * @Method ("GET")
      * @return  Response
@@ -215,15 +215,16 @@ class ReserveController extends Controller
             6=>"11:00 - 11:30",
             7=>"11:30 - 12:00",
             8=>"12:00 - 12:30",
-            9=>"13:00 - 13:30",
-            10=>"13:30 - 14:00",
-            11=>"14:00 - 14:30",
-            12=>"14:30 - 15:00",
-            13=>"15:00 - 15:30",
-            14=>"15:30 - 16:00",
-            15=>"16:30 - 17:00",
-            16=>"17:00 - 17:30",
-            17=>"17:30 - 18:00"
+            9=>"12:30 - 13:00",
+            10=>"13:00 - 13:30",
+            11=>"13:30 - 14:00",
+            12=>"14:00 - 14:30",
+            13=>"14:30 - 15:00",
+            14=>"15:00 - 15:30",
+            15=>"15:30 - 16:00",
+            16=>"16:30 - 17:00",
+            17=>"17:00 - 17:30",
+            18=>"17:30 - 18:00"
         ];
         $OccupiedHours=$ReserveRepo->getOccupiedHoursByIdSalle($params["dateSelected"],$params["idSalleToCheck"]);
         $occupiedCrenau = [];
@@ -276,4 +277,39 @@ class ReserveController extends Controller
                 "hoursThird"=>$thirdArray));
         return new Response($htmlToRender->getContent());
     }
+
+    /**
+     * create reservation ajax
+     * @Route("/new/create", name="create_reservation")
+     * @Method ("GET")
+     *
+     */
+    public function ajaxCreateReservation(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $reservation = new Reserve();
+        $repository = $em->getRepository("AppBundle:Reserve");
+        $params = array(
+            "dateDebut"=>$request->get('dateDebut'),
+            "dateFin"=>$request->get("dateFin"),
+            "idSalle"=>$request->get('idSalle'),
+            "duree"=>$request->get("duree")
+        );
+        $digits = 4;
+        $code = str_pad(rand(0, pow(10, $digits)-1), $digits, '0', STR_PAD_LEFT);
+        $userId=$this->get("session")->get("user")["id"];
+        $dateDeb= new \DateTime(date("Y-m-d H:i:s", strtotime($params["dateDebut"])));
+        $dateFin= new \DateTime(date("Y-m-d H:i:s", strtotime($params["dateFin"])));
+        $reservation->setPersonneId($userId);
+        $reservation->setDateDebut($dateDeb);
+        $reservation->setDateFin($dateFin);
+        $reservation->setDuree(intval($params["duree"]));
+        $reservation->setSalleId(intval($params["idSalle"]));
+        $reservation->setCode($code);
+        $reservation->setStatus(1);
+        $em->persist($reservation);
+        $em->flush();
+        return new JsonResponse(json_encode(["id"=>$reservation->getId()]));
+    }
+
+
 }

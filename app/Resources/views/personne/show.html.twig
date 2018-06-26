@@ -24,11 +24,11 @@
         </tbody>
     </table>
 <div class="center div-form-style">
-    <a class="btn btn-success" href="{{ path('personne_edit', { 'id': personne.id }) }}">Edit</a>
+    <a class="btn btn-success" href="{{ path('personne_edit', { 'id': personne.id }) }}">Modifier</a>
 </div>
 <div class="center div-form-style">
             {{ form_start(delete_form) }}
-    <a class="btn btn-primary" href="{{ path('personne_index') }}">Back to the list</a>
+    <a class="btn btn-primary" href="{{ path('personne_index') }}">Retour à la liste</a>
     <input class="btn btn-warning" type="submit" value="Delete">
             {{ form_end(delete_form) }}
 </div>

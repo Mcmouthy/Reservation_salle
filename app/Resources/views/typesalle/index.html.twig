@@ -16,8 +16,8 @@
                 {#<td class="center"><a class="btn btn-info" href="{{ path('typesalle_show', { 'id': typeSalle.id }) }}">{{ typeSalle.id }}</a></td>#}
                 <td class="center">{{ typeSalle.nom }}</td>
                 <td class="center">
-                            <a class="btn btn-info btn-sm" href="{{ path('typesalle_show', { 'id': typeSalle.id }) }}">show</a>
-                            <a class="btn btn-warning btn-sm" href="{{ path('typesalle_edit', { 'id': typeSalle.id }) }}">edit</a>
+                            <a class="btn btn-info btn-sm" href="{{ path('typesalle_show', { 'id': typeSalle.id }) }}">Voir</a>
+                            <a class="btn btn-warning btn-sm" href="{{ path('typesalle_edit', { 'id': typeSalle.id }) }}">Modifier</a>
                 </td>
             </tr>
         {% endfor %}
@@ -25,7 +25,7 @@
     </table>
     <div class="center div-form-style">
 
-        <a class="btn btn-primary" href="{{ path('typesalle_new') }}">Create a new typeSalle</a>
+        <a class="btn btn-primary" href="{{ path('typesalle_new') }}">Créer un nouveau type de salle</a>
     </div>
 
 {% endblock %}
