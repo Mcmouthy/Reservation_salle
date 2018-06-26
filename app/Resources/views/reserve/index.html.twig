@@ -24,9 +24,12 @@
                     <tr>
                         {#<td class="center"><a href="{{ path('reserve_show', { 'id': reserve.id }) }}">{{ reserve.id }}</a></td>#}*
                         {% if user and user.isAdmin %}
+                            <td class="center">{{ personne.prenom }} {{ personne.nom}}</td>
+                        {% else %}
                             {% for personne in personnes %}
                                 {% if personne.id == reserve.personneId%}
                                     <td class="center">{{ personne.prenom }} {{ personne.nom}}</td>
+
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
